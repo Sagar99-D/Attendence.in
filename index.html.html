@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendence.in — Student Attendance</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">A</span><span>Attendence<span class="brand-dot">.in</span></span></div>
+      <p class="side-label">WORKSPACE</p>
+      <nav>
+        <button class="nav-link active" data-page="dashboard">▦ <span>Dashboard</span></button>
+        <button class="nav-link" data-page="daily">＋ <span>Daily attendance</span></button>
+        <button class="nav-link" data-page="subjects">▤ <span>My subjects</span></button>
+        <button class="nav-link" data-page="history">◷ <span>Attendance history</span></button>
+        <button class="nav-link" data-page="calculator">％ <span>Attendance calculator</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="tip-card"><div class="tip-icon">✦</div><strong>Stay on track</strong><p>Keep your attendance above 75% to stay on target.</p></div>
+        <button id="themeToggle" class="theme-toggle">◐ <span>Toggle appearance</span></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><p class="eyebrow" id="todayLabel">STUDENT WORKSPACE</p><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="top-actions"><span class="today-pill" id="datePill"></span><div class="avatar">S</div></div>
+      </header>
+
+      <section class="page active" id="dashboard">
+        <div class="welcome-row"><div><h2>Your attendance at a glance</h2><p class="muted">A clear picture of your academic progress.</p></div><button class="primary-btn" data-go="daily">＋ Add today's classes</button></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total subjects</span><span class="stat-icon purple">▤</span></div><strong id="statSubjects">0</strong><small>Subjects you're tracking</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Classes conducted</span><span class="stat-icon blue">▦</span></div><strong id="statClasses">0</strong><small>Across all subjects</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Classes attended</span><span class="stat-icon green">✓</span></div><strong id="statAttended">0</strong><small>Classes marked present</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Overall attendance</span><span class="stat-icon orange">％</span></div><strong id="statPercent">0%</strong><small id="statMissed">0 classes missed</small></article>
+        </div>
+        <div class="section-heading"><div><h2>Subject overview</h2><p class="muted">Your attendance percentage for each subject.</p></div><button class="text-btn" data-go="subjects">Manage subjects →</button></div>
+        <div id="subjectOverview" class="subject-grid"></div>
+        <div class="empty-state" id="dashboardEmpty"><div class="empty-icon">▤</div><h3>Let's add your subjects</h3><p>Add the subjects you study to start tracking attendance.</p><button class="primary-btn" data-go="subjects">＋ Add your first subject</button></div>
+      </section>
+
+      <section class="page" id="daily">
+        <div class="page-intro"><h2>What classes do you have today?</h2><p class="muted">Choose your subjects, add the classes, then mark whether you attended.</p></div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>Select today's subjects</h3><p class="muted">Each selected subject adds one class to its total.</p></div><input type="date" id="attendanceDate" /></div>
+          <div id="dailySubjectList" class="check-grid"></div>
+          <div class="panel-footer"><span class="muted" id="selectedCount">0 subjects selected</span><button class="primary-btn" id="addClassesBtn">Add selected classes →</button></div>
+        </div>
+        <div class="panel" id="markPanel" hidden>
+          <div class="panel-head"><div><h3>Mark your attendance</h3><p class="muted">Choose Present or Absent for each class.</p></div><span class="status-tag">TODAY'S RECORD</span></div>
+          <div id="markList" class="mark-list"></div>
+          <div class="panel-footer"><span class="muted">Changes are saved automatically.</span><button class="primary-btn" id="finishBtn">Done</button></div>
+        </div>
+      </section>
+
+      <section class="page" id="subjects">
+        <div class="welcome-row"><div><h2>Manage your subjects</h2><p class="muted">Add, rename or remove the subjects you want to track.</p></div></div>
+        <div class="panel add-subject-panel"><form id="subjectForm"><label for="subjectName">Subject name</label><div class="inline-form"><input id="subjectName" placeholder="e.g. Engineering Mathematics" maxlength="50" required /><button class="primary-btn" type="submit">＋ Add subject</button></div></form></div>
+        <div id="subjectManageList" class="manage-list"></div>
+      </section>
+
+      <section class="page" id="history">
+        <div class="welcome-row"><div><h2>Attendance history</h2><p class="muted">Review and correct your previous attendance records.</p></div><select id="historyFilter"><option value="all">All subjects</option></select></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Subject</th><th>Status</th><th>Action</th></tr></thead><tbody id="historyRows"></tbody></table></div><div class="empty-state compact" id="historyEmpty"><h3>No attendance records yet</h3><p>Your daily entries will appear here.</p></div></div>
+      </section>
+
+      <section class="page" id="calculator">
+        <div class="page-intro"><h2>Plan your attendance</h2><p class="muted">Find out how many classes you need to attend to reach your target.</p></div>
+        <div class="panel calculator-panel"><label for="calcSubject">Choose a subject</label><select id="calcSubject"></select><div class="calc-result" id="calcResult"><p class="muted">Add subjects and attendance records to use the calculator.</p></div></div>
+        <div class="note-box"><strong>How it works</strong><p>The calculator assumes you attend every upcoming class when calculating how many consecutive classes are needed to reach 75%.</p></div>
+      </section>
+
+      <footer>Attendence.in <span>•</span> Your personal attendance companion</footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
